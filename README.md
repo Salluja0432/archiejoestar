@@ -2,61 +2,40 @@
 
 Repositório de acompanhamento dos estudos, exercícios e projetos desenvolvidos durante o Módulo 3 do programa Jovem Tech.
 
-## Estado atual
+## Ambiente de desenvolvimento
 
-O módulo começou com a preparação local do ambiente de desenvolvimento. Até a última atualização deste README, a professora ainda não havia disponibilizado os PDFs ou as atividades de conteúdo; a orientação inicial foi configurar o projeto no computador.
-
-Por isso, esta branch começa sem os exercícios dos módulos anteriores. Os materiais e atividades do Módulo 3 serão adicionados conforme forem apresentados durante as aulas.
-
-## Ambiente configurado localmente
-
-O projeto foi inicializado com **Node.js** e **npm**, com as ferramentas de TypeScript instaladas como dependências de desenvolvimento:
+O projeto utiliza Node.js, npm e TypeScript. As dependências de desenvolvimento configuradas na raiz incluem:
 
 - `typescript` — compilador e suporte à linguagem TypeScript;
 - `tsx` — execução de arquivos TypeScript diretamente no ambiente Node.js;
 - `@types/node` — definições de tipos para recursos do Node.js.
 
-Também foi criado o arquivo de configuração `tsconfig.json`.
+O ambiente foi iniciado com `npm init -y`, as dependências foram instaladas com npm e a configuração do TypeScript fica em `tsconfig.json`.
 
-### Comandos executados
+## Atividades e projetos
 
-Inicialização do projeto:
+### Atividade de POO — Personagem
 
-```bash
-npm init -y
+O arquivo [att2.ts](att2.ts) contém a atividade de classe `Personagem`, com Mario e Luigi como objetos. A implementação trabalha atributos, constructor, métodos e encapsulamento com getter e setter.
+
+### Space Invaders — jogo no terminal
+
+O projeto [SPACE_INVADERS](SPACE_INVADERS/) é um jogo de nave inspirado em Space Invaders, desenvolvido em TypeScript e executado inteiramente no terminal. A evolução foi feita em etapas: classe da nave, desenho do tabuleiro, controle em tempo real, projéteis, inimigos, colisões, pontuação e condições de vitória e Game Over.
+
+- [Código atual do jogo](SPACE_INVADERS/space_invaders.ts)
+- [README do projeto](SPACE_INVADERS/README.md)
+- [Histórico das versões](SPACE_INVADERS/HISTORICO_VERSOES.md)
+- [Testes manuais](SPACE_INVADERS/TESTES_MANUAIS.md)
+- [Snapshots dos códigos anteriores](SPACE_INVADERS/versoes/)
+
+Para executar a versão atual a partir da raiz do repositório:
+
+```powershell
+npx tsx .\SPACE_INVADERS\space_invaders.ts
 ```
 
-Instalação das ferramentas:
+O jogo usa recursos complementares do Node.js para entrada de teclado e atualização em tempo real. Esses recursos estão identificados separadamente da matéria central de POO e TypeScript.
 
-```bash
-npm i -D typescript tsx @types/node
-```
+## Organização dos estudos
 
-Criação da configuração do TypeScript:
-
-```bash
-npx tsc --init
-```
-
-Teste inicial de execução:
-
-```bash
-npx tsx index.ts
-```
-
-O teste local exibiu:
-
-```text
-Hello, world!
-```
-
-## Próximas atualizações
-
-Este README será atualizado à medida que novos conteúdos forem liberados. A organização prevista é registrar:
-
-- materiais e assuntos estudados;
-- atividades propostas e suas soluções;
-- exemplos e práticas desenvolvidos em aula;
-- projetos e entregas do módulo.
-
-**Observação:** a configuração descrita acima foi feita localmente na pasta `Documents/GitHub/module3`. Até esta atualização, os arquivos de configuração e o `index.ts` ainda não foram enviados para esta branch; somente este README está versionado aqui.
+Este repositório registra materiais, exemplos, atividades e projetos do Módulo 3 à medida que são trabalhados nas aulas. Os históricos de versão e os relatórios de teste distinguem resultados efetivamente observados de verificações ainda pendentes.
