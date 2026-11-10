@@ -93,7 +93,7 @@ O controle principal verifica se algum inimigo alcançaria uma extremidade no pr
 
 Resultado observado: a execução final exibiu 30 pontos, zero inimigos restantes e a mensagem de vitória.
 
-Código atual: [space_invaders.ts](space_invaders.ts).
+Código atual: [space_invaders.ts](space_invaders.ts). Snapshot da etapa: [v0.6-invasores-moveis-e-vitoria.ts](versoes/v0.6-invasores-moveis-e-vitoria.ts).
 
 ## Diferenças principais entre as etapas
 
