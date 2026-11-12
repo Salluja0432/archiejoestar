@@ -1,4 +1,4 @@
-﻿import * as readline from "readline";
+import * as readline from "readline";
 import { Nave } from "../models/Nave";
 import {
   Inimigo,
@@ -33,6 +33,7 @@ export class Jogo {
 
     const personagens: Personagem[] = [this.minhaNave, ...this.inimigos];
 
+    // Percorre o tabuleiro e desenha os personagens e projéteis em suas posições.
     for (let y = 0; y < ALTURA; y++) {
       let linha = "";
 
@@ -72,6 +73,7 @@ export class Jogo {
   }
 
   private pararJogo(): void {
+    // Para as atualizações e devolve o terminal ao modo normal.
     if (this.intervalo) {
       clearInterval(this.intervalo);
       this.intervalo = undefined;
@@ -96,6 +98,7 @@ export class Jogo {
       this.contadorMovimento = 0;
       let inverterDirecao = false;
 
+      // Verifica se algum inimigo está prestes a alcançar uma das bordas.
       for (const inimigo of this.inimigos) {
         if (
           inimigo.posicaoX + this.direcaoInimigos < 0 ||
@@ -105,6 +108,7 @@ export class Jogo {
         }
       }
 
+      // Quando o grupo alcança uma borda, muda de direção e desce uma linha.
       if (inverterDirecao) {
         this.direcaoInimigos = this.direcaoInimigos === 1 ? -1 : 1;
 
@@ -122,12 +126,14 @@ export class Jogo {
       projetil.mover();
     }
 
+    // Remove projéteis que saíram da área visível.
     for (let i = this.projeteis.length - 1; i >= 0; i--) {
       if (this.projeteis[i].y < 0) {
         this.projeteis.splice(i, 1);
       }
     }
 
+    // Procura colisões, remove os objetos atingidos e soma os pontos.
     for (let i = this.projeteis.length - 1; i >= 0; i--) {
       for (let j = this.inimigos.length - 1; j >= 0; j--) {
         if (
@@ -144,6 +150,7 @@ export class Jogo {
 
     let inimigoAtingiuLinha = false;
 
+    // Um inimigo que alcança a linha da nave causa a perda de uma vida.
     for (const inimigo of this.inimigos) {
       if (inimigo.posicaoY >= ALTURA - 2) {
         inimigoAtingiuLinha = true;
