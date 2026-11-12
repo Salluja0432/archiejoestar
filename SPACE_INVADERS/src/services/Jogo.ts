@@ -189,7 +189,7 @@ export class Jogo {
 
     process.stdin.resume();
 
-    process.stdin.on("keypress", (_str, tecla) => {
+    process.stdin.on("keypress", (_caractere, tecla) => {
       if (!tecla) return;
 
       if (tecla.ctrl && tecla.name === "c") {
