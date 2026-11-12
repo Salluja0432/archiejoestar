@@ -1,6 +1,6 @@
 # Histórico de versões — Space Invaders
 
-Este documento registra a evolução incremental do jogo. As versões anteriores estão preservadas em [versoes/](versoes/) e a versão atual está em [space_invaders.ts](space_invaders.ts).
+Este documento registra a evolução incremental do jogo. As versões anteriores estão preservadas em [versoes/](versoes/). O arquivo principal atual é [space_invaders_corrigido.ts](space_invaders_corrigido.ts). O arquivo [space_invaders.ts](space_invaders.ts) foi preservado como versão anterior/histórica.
 
 As snapshots são registros das etapas de código trabalhadas durante a conversa e não representam commits Git independentes feitos em cada etapa.
 
@@ -14,6 +14,7 @@ As snapshots são registros das etapas de código trabalhadas durante a conversa
 | 0.4 | Disparos | Classe `Projetil`, vetor de tiros e movimento vertical dos disparos. |
 | 0.5 | Inimigos e colisões | Classe `Inimigo`, três objetos, colisão tiro/inimigo e pontuação de 10 por acerto. |
 | 0.6 | Invasores móveis e fim de partida | Movimento horizontal em grupo, inversão nas bordas, descida, vitória e Game Over. |
+| Versão corrigida | Consolidação | Versão principal configurada nos scripts npm e no TypeScript; preserva as mecânicas do jogo e é o alvo dos testes recentes. |
 
 ## Versão 0.1 — nave básica
 
@@ -91,9 +92,19 @@ Foram adicionados à classe `Inimigo` os métodos:
 
 O controle principal verifica se algum inimigo alcançaria uma extremidade no próximo movimento. Quando isso acontece, o grupo inverte a direção e desce. A partida termina em vitória quando não restam inimigos ou em Game Over quando os invasores alcançam a linha da nave.
 
-Resultado observado: a execução final exibiu 30 pontos, zero inimigos restantes e a mensagem de vitória.
+Resultado observado na versão anterior: a execução final exibiu 30 pontos, zero inimigos restantes e a mensagem de vitória.
 
-Código atual: [space_invaders.ts](space_invaders.ts). Snapshot da etapa: [v0.6-invasores-moveis-e-vitoria.ts](versoes/v0.6-invasores-moveis-e-vitoria.ts).
+Snapshot da etapa: [v0.6-invasores-moveis-e-vitoria.ts](versoes/v0.6-invasores-moveis-e-vitoria.ts).
+
+## Versão principal corrigida
+
+O arquivo [space_invaders_corrigido.ts](space_invaders_corrigido.ts) é o ponto de entrada atual do projeto:
+
+- O script `npm start` executa esse arquivo.
+- O script `npm run check` verifica esse arquivo com `tsc --noEmit`.
+- Os testes recentes feitos no PC do curso estão registrados separadamente em [TESTES_MANUAIS.md](TESTES_MANUAIS.md).
+
+Na execução recente, foram confirmados a verificação TypeScript sem erros, os controles básicos, o movimento dos invasores, a condição de Game Over e o encerramento com Ctrl+C depois do Game Over. A vitória está registrada historicamente na versão anterior e ainda precisa de um teste próprio documentado na versão principal corrigida.
 
 ## Diferenças principais entre as etapas
 
@@ -102,6 +113,7 @@ Código atual: [space_invaders.ts](space_invaders.ts). Snapshot da etapa: [v0.6-
 3. **De interação para combate:** a versão 0.4 introduziu projéteis como objetos independentes.
 4. **De combate para jogo com objetivo:** a versão 0.5 introduziu inimigos, colisões e pontuação.
 5. **De alvos fixos para invasores:** a versão 0.6 adicionou deslocamento, mudança de direção, descida e condições de encerramento.
+6. **De versão histórica para versão principal:** a versão corrigida passou a ser o arquivo executado e verificado pelos scripts npm, mantendo a versão anterior e os snapshots para consulta.
 
 ## Por que a implementação foi dividida assim?
 
