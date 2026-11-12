@@ -62,6 +62,8 @@ Na tela registrada, alguns projéteis ainda estavam visíveis após a vitória. 
 | C06 | Deixar os invasores alcançarem a linha da nave. | A tela exibiu `GAME OVER! Os invasores chegaram à sua nave!` e parou de atualizar. | Confirmado |
 | C07 | Pressionar Ctrl + C depois do Game Over. | O terminal exibiu `Jogo encerrado!` e retornou ao prompt do PowerShell. | Confirmado |
 | C08 | Eliminar os três inimigos e observar o encerramento por vitória. | A tela mostrou pontuação 30, zero inimigos restantes e `VITÓRIA! Todos os invasores foram destruídos!`. | Confirmado |
+| C09 | Observar os invasores alcançando uma extremidade. | O grupo inverteu a direção horizontal e desceu uma linha. | Confirmado |
+| C10 | Acompanhar o movimento repetido nas duas extremidades. | Os invasores continuaram alternando a direção e descendo uma linha a cada inversão, até alcançarem a altura da nave. | Confirmado |
 
 ### Evidência recente de Game Over
 
@@ -73,6 +75,8 @@ Resultado observado no PC do curso:
 - A tela parou de atualizar e a mensagem permaneceu visível.
 
 Depois, ao pressionar Ctrl + C, o programa exibiu `Jogo encerrado!` e o terminal retornou ao PowerShell.
+
+A condição de derrota ocorre quando os invasores alcançam a linha da nave, independentemente da posição horizontal da nave.
 
 ### Evidência recente de vitória — versão principal corrigida
 
@@ -104,15 +108,13 @@ VITÓRIA! Todos os invasores foram destruídos!
 
 | ID | O que falta verificar |
 |---|---|
-| P02 | Observar especificamente os invasores alcançando a borda, invertendo a direção e descendo. |
-| P03 | Verificar o comportamento repetido nas duas extremidades da tela. |
 | P04 | Verificar Ctrl+C durante uma partida ainda ativa, além do teste já feito depois do Game Over. |
 | P05 | Testar disparos simultâneos em diferentes posições e possíveis colisões de projéteis. |
 
 ## Observações de confiabilidade
 
 - Os resultados históricos T01–T07 foram observados na versão anterior, `space_invaders.ts`.
-- Os resultados C01–C08 foram observados na versão principal corrigida, `space_invaders_corrigido.ts`.
+- Os resultados C01–C10 foram observados na versão principal corrigida, `space_invaders_corrigido.ts`.
 - Os testes pendentes não são apresentados como aprovados.
 - A pontuação observada na vitória foi de 30 pontos para três inimigos destruídos: 3 × 10 = 30 pontos.
 - Não há ainda teste automatizado nem garantia de ausência de defeitos.
