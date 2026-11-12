@@ -1,0 +1,13 @@
+{
+  "name": "space-invaders",
+  "private": true,
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
