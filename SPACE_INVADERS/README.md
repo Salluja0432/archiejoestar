@@ -1,25 +1,30 @@
 # Space Invaders — Terminal (TypeScript)
 
-Projeto prático desenvolvido durante o Módulo 3 do Jovem Tech. É um jogo de nave inspirado em Space Invaders, executado exclusivamente no terminal, com movimentação em tempo real, disparos, inimigos, colisões e pontuação.
+Projeto prático desenvolvido durante o Módulo 3 do Jovem Tech. É um jogo de nave inspirado em Space Invaders, executado exclusivamente no terminal, com movimentação em tempo real, disparos, inimigos, colisões, pontuação e condições de vitória e derrota.
 
-> Este projeto foi desenvolvido passo a passo como exercício de aprendizagem. O código foi escrito durante a atividade, testado manualmente e documentado por etapas. Não é uma cópia do Flappy Bird de outro aluno.
+> Este projeto foi desenvolvido passo a passo como exercício de aprendizagem. O código foi construído durante a atividade, testado manualmente e documentado por etapas.
+
+## Versão principal
+
+O arquivo principal do projeto é **`space_invaders_corrigido.ts`**. Os comandos `npm start` e `npm run check` utilizam esse arquivo.
+
+O arquivo `space_invaders.ts` foi preservado como versão anterior/histórica, e os arquivos em `versoes/` registram etapas intermediárias do desenvolvimento.
 
 ## Como executar
 
-O projeto utiliza as ferramentas TypeScript já instaladas na raiz do repositório do Módulo 3: `typescript`, `tsx` e `@types/node`. Não é necessário criar outro projeto npm dentro desta pasta.
-
-Na raiz do repositório:
+Na pasta `SPACE_INVADERS`, execute:
 
 ```powershell
-npx tsx .\SPACE_INVADERS\space_invaders.ts
+npm start
 ```
 
-Ou, entrando nesta pasta:
+Para verificar os tipos TypeScript sem gerar arquivos:
 
 ```powershell
-cd .\SPACE_INVADERS
-npx tsx .\space_invaders.ts
+npm run check
 ```
+
+O projeto possui suas próprias dependências npm nesta pasta. Se elas ainda não estiverem instaladas, execute `npm install` dentro de `SPACE_INVADERS`.
 
 O jogo precisa ser executado em um terminal interativo (TTY), porque recebe as teclas diretamente.
 
@@ -32,7 +37,7 @@ O jogo precisa ser executado em um terminal interativo (TTY), porque recebe as t
 | Espaço | Dispara um projétil |
 | Ctrl + C | Encerra o jogo |
 
-## O que o jogo faz na versão atual
+## O que o jogo faz na versão principal
 
 - Desenha uma área de jogo de 40 colunas por 12 linhas no terminal.
 - Cria uma nave na parte inferior.
@@ -46,6 +51,7 @@ O jogo precisa ser executado em um terminal interativo (TTY), porque recebe as t
 - Adiciona 10 pontos por inimigo destruído.
 - Exibe vitória quando todos os inimigos são eliminados.
 - Exibe Game Over quando os inimigos alcançam a linha da nave.
+- Interrompe o ciclo de atualização quando a partida termina.
 
 ## Organização das classes
 
@@ -90,16 +96,18 @@ Alguns recursos foram necessários para que o jogo funcionasse em tempo real no 
 
 ## Histórico e testes
 
-- [Histórico das versões](HISTORICO_VERSOES.md) — explica a evolução da primeira classe até a versão jogável.
-- [Testes manuais](TESTES_MANUAIS.md) — registra o que foi executado, o resultado observado e o que ainda não foi testado.
+- [Histórico das versões](HISTORICO_VERSOES.md) — explica a evolução da primeira classe até a versão principal atual.
+- [Testes manuais](TESTES_MANUAIS.md) — separa os resultados históricos da versão original dos testes feitos na versão principal corrigida.
 - [Snapshots das versões anteriores](versoes/) — preserva os códigos das etapas intermediárias.
+- [Versão anterior](space_invaders.ts) — preservada para consulta e comparação.
+- [Versão principal](space_invaders_corrigido.ts) — arquivo executado pelos scripts npm.
 
 ## Estado atual e limitações conhecidas
 
-A versão atual tem uma única formação com três inimigos. Ainda não possui vidas do jogador, disparos inimigos, múltiplas ondas, tela de reinício ou fases progressivas. Esses recursos podem ser adicionados em etapas futuras.
+A versão principal tem uma única formação com três inimigos. Ainda não possui vidas do jogador, disparos inimigos, múltiplas ondas, tela de reinício ou fases progressivas.
 
-Na execução registrada da vitória, alguns projéteis que ainda estavam na tela permaneceram visíveis após a partida terminar. Isso é um detalhe visual pendente; não alterou a pontuação nem o resultado da partida.
+A evidência histórica da vitória foi registrada na versão original. A versão principal corrigida já teve seus controles básicos, a condição de Game Over e o encerramento com Ctrl+C observados no PC do curso. A vitória da versão principal ainda precisa de um registro de teste próprio para que as evidências das duas versões não sejam confundidas.
 
 ## Critério de registro
 
-Os testes registrados são testes manuais feitos durante o desenvolvimento. Um comportamento só é marcado como confirmado quando houve execução ou observação relatada. Funcionalidades sem confirmação específica aparecem como pendentes, mesmo que exista código para elas.
+Os testes registrados são testes manuais feitos durante o desenvolvimento. Um comportamento só é marcado como confirmado em uma versão quando houve execução ou observação relatada para aquela versão. Resultados de uma versão não são automaticamente atribuídos à outra.
