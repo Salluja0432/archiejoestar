@@ -64,6 +64,8 @@ Na tela registrada, alguns projéteis ainda estavam visíveis após a vitória. 
 | C08 | Eliminar os três inimigos e observar o encerramento por vitória. | A tela mostrou pontuação 30, zero inimigos restantes e `VITÓRIA! Todos os invasores foram destruídos!`. | Confirmado |
 | C09 | Observar os invasores alcançando uma extremidade. | O grupo inverteu a direção horizontal e desceu uma linha. | Confirmado |
 | C10 | Acompanhar o movimento repetido nas duas extremidades. | Os invasores continuaram alternando a direção e descendo uma linha a cada inversão, até alcançarem a altura da nave. | Confirmado |
+| C11 | Pressionar e manter Espaço pressionado para disparar continuamente. | Vários projéteis permaneceram na tela ao mesmo tempo, movimentaram-se, atingiram inimigos e geraram pontuação corretamente. | Confirmado |
+| C12 | Pressionar Ctrl + C durante uma partida ainda ativa. | O terminal exibiu `Jogo encerrado!` e retornou ao prompt do PowerShell. | Confirmado |
 
 ### Evidência recente de Game Over
 
@@ -104,17 +106,13 @@ Ctrl + C: sair
 VITÓRIA! Todos os invasores foram destruídos!
 ```
 
-## 3. Testes ainda pendentes na versão principal corrigida
+## 3. Situação dos testes
 
-| ID | O que falta verificar |
-|---|---|
-| P04 | Verificar Ctrl+C durante uma partida ainda ativa, além do teste já feito depois do Game Over. |
-| P05 | Testar disparos simultâneos em diferentes posições e possíveis colisões de projéteis. |
+Todos os testes manuais planejados até aqui foram confirmados na versão principal corrigida. Não há pendências na lista atual de testes manuais.
 
 ## Observações de confiabilidade
 
 - Os resultados históricos T01–T07 foram observados na versão anterior, `space_invaders.ts`.
-- Os resultados C01–C10 foram observados na versão principal corrigida, `space_invaders_corrigido.ts`.
-- Os testes pendentes não são apresentados como aprovados.
+- Os resultados C01–C12 foram observados na versão principal corrigida, `space_invaders_corrigido.ts`.
 - A pontuação observada na vitória foi de 30 pontos para três inimigos destruídos: 3 × 10 = 30 pontos.
 - Não há ainda teste automatizado nem garantia de ausência de defeitos.
