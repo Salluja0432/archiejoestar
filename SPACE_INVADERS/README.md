@@ -104,9 +104,7 @@ Alguns recursos foram necessários para que o jogo funcionasse em tempo real no 
 
 ## Estado atual e limitações conhecidas
 
-A versão principal tem uma única formação com três inimigos. Ainda não possui vidas do jogador, disparos inimigos, múltiplas ondas, tela de reinício ou fases progressivas.
-
-A evidência histórica da vitória foi registrada na versão original. A versão principal corrigida já teve seus controles básicos, a condição de Game Over e o encerramento com Ctrl+C observados no PC do curso. A vitória da versão principal ainda precisa de um registro de teste próprio para que as evidências das duas versões não sejam confundidas.
+A versão principal tem uma única formação com três inimigos. A execução e os testes manuais confirmaram os controles básicos, movimentação dos invasores, disparos, pontuação, vitória, Game Over e encerramento com Ctrl+C após o Game Over. Ainda não possui vidas do jogador, disparos inimigos, múltiplas ondas, tela de reinício ou fases progressivas.
 
 ## Critério de registro
 
