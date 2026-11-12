@@ -34,7 +34,7 @@ O jogo precisa ser executado em um terminal interativo (TTY), porque recebe as t
 |---|---|
 | Seta esquerda | Move a nave para a esquerda |
 | Seta direita | Move a nave para a direita |
-| Espaço | Dispara um projétil |
+| Espaço | Dispara projéteis continuamente enquanto pressionado |
 | Ctrl + C | Encerra o jogo |
 
 ## O que o jogo faz na versão principal
@@ -42,7 +42,7 @@ O jogo precisa ser executado em um terminal interativo (TTY), porque recebe as t
 - Desenha uma área de jogo de 40 colunas por 12 linhas no terminal.
 - Cria uma nave na parte inferior.
 - Restringe a nave aos limites horizontais da tela.
-- Permite disparar projéteis para cima.
+- Permite disparar projéteis para cima, inclusive mantendo Espaço pressionado.
 - Cria três inimigos.
 - Move os inimigos horizontalmente em grupo.
 - Quando o grupo alcança uma extremidade, inverte a direção e desce uma linha.
@@ -104,7 +104,7 @@ Alguns recursos foram necessários para que o jogo funcionasse em tempo real no 
 
 ## Estado atual e limitações conhecidas
 
-A versão principal tem uma única formação com três inimigos. A execução e os testes manuais confirmaram os controles básicos, movimentação dos invasores, disparos, pontuação, vitória, Game Over e encerramento com Ctrl+C após o Game Over. Ainda não possui vidas do jogador, disparos inimigos, múltiplas ondas, tela de reinício ou fases progressivas.
+A versão principal tem uma única formação com três inimigos. Os testes manuais confirmaram controles, disparos contínuos, projéteis simultâneos, colisões, pontuação, movimentação e descida repetida dos invasores, vitória, Game Over e encerramento com Ctrl+C durante e depois da partida. Ainda não possui vidas do jogador, disparos inimigos, múltiplas ondas, tela de reinício ou fases progressivas.
 
 ## Critério de registro
 
