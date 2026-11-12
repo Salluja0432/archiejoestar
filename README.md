@@ -1,2 +1,0 @@
-# archiejoestar
-jovem tech artur
