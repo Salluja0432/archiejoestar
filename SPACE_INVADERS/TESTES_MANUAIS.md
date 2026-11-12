@@ -7,7 +7,7 @@ Este documento separa os testes históricos feitos na versão anterior (`space_i
 ## 1. Testes históricos — versão anterior
 
 **Arquivo:** `space_invaders.ts`  
-**Comando utilizado:** `npx tsx .\space_invaders.ts`, a partir da pasta `SPACE_INVADERS`.
+**Comando utilizado:** `npx tsx .\\space_invaders.ts`, a partir da pasta `SPACE_INVADERS`.
 
 | ID | Etapa | Procedimento | Resultado observado | Situação |
 |---|---|---|---|---|
@@ -61,6 +61,7 @@ Na tela registrada, alguns projéteis ainda estavam visíveis após a vitória. 
 | C05 | Observar o movimento dos invasores durante a partida. | Os inimigos se movimentaram. | Confirmado |
 | C06 | Deixar os invasores alcançarem a linha da nave. | A tela exibiu `GAME OVER! Os invasores chegaram à sua nave!` e parou de atualizar. | Confirmado |
 | C07 | Pressionar Ctrl + C depois do Game Over. | O terminal exibiu `Jogo encerrado!` e retornou ao prompt do PowerShell. | Confirmado |
+| C08 | Eliminar os três inimigos e observar o encerramento por vitória. | A tela mostrou pontuação 30, zero inimigos restantes e `VITÓRIA! Todos os invasores foram destruídos!`. | Confirmado |
 
 ### Evidência recente de Game Over
 
@@ -73,11 +74,36 @@ Resultado observado no PC do curso:
 
 Depois, ao pressionar Ctrl + C, o programa exibiu `Jogo encerrado!` e o terminal retornou ao PowerShell.
 
+### Evidência recente de vitória — versão principal corrigida
+
+Saída enviada após a execução de `npm start`:
+
+```text
++----------------------------------------+
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|   |                                    |
+|                                        |
+|   A                                    |
+|                                        |
++----------------------------------------+
+Pontuação: 30
+Inimigos restantes: 0
+Setas: movimentar | ESPAÇO: atirar
+Ctrl + C: sair
+VITÓRIA! Todos os invasores foram destruídos!
+```
+
 ## 3. Testes ainda pendentes na versão principal corrigida
 
 | ID | O que falta verificar |
 |---|---|
-| P01 | Eliminar os três inimigos e registrar a vitória especificamente em `space_invaders_corrigido.ts`. |
 | P02 | Observar especificamente os invasores alcançando a borda, invertendo a direção e descendo. |
 | P03 | Verificar o comportamento repetido nas duas extremidades da tela. |
 | P04 | Verificar Ctrl+C durante uma partida ainda ativa, além do teste já feito depois do Game Over. |
@@ -86,7 +112,7 @@ Depois, ao pressionar Ctrl + C, o programa exibiu `Jogo encerrado!` e o terminal
 ## Observações de confiabilidade
 
 - Os resultados históricos T01–T07 foram observados na versão anterior, `space_invaders.ts`.
-- Os resultados C01–C07 foram observados na versão principal corrigida, `space_invaders_corrigido.ts`.
+- Os resultados C01–C08 foram observados na versão principal corrigida, `space_invaders_corrigido.ts`.
 - Os testes pendentes não são apresentados como aprovados.
-- A pontuação histórica foi observada em uma partida com três inimigos: 3 × 10 = 30 pontos.
+- A pontuação observada na vitória foi de 30 pontos para três inimigos destruídos: 3 × 10 = 30 pontos.
 - Não há ainda teste automatizado nem garantia de ausência de defeitos.
