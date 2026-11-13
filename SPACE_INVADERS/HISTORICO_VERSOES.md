@@ -1,56 +1,62 @@
 # Histórico de versões — Space Invaders
 
-Este documento registra a evolução do jogo desde sua primeira implementação até as versões atuais de terminal e navegador.
+Este documento registra a evolução do jogo desde sua primeira implementação até a estrutura modularizada atual.
 
-As implementações anteriores em TypeScript foram preservadas na pasta versoes/. A implementação modularizada de terminal está organizada em src/, e a versão web está em web/space_invaders.html.
+As versões anteriores foram preservadas na pasta `versoes/`. O projeto atual utiliza TypeScript e está organizado em módulos dentro da pasta `src/`.
 
 ## Estrutura atual
 
-O projeto possui duas implementações:
+O ponto de entrada do jogo é `src/index.ts`.
 
-- **Terminal:** iniciada por src/index.ts, com lógica principal em src/services/Jogo.ts e classes, interfaces e tipos em src/models/.
-- **Navegador:** página autocontida em web/space_invaders.html, com HTML, CSS e JavaScript no mesmo arquivo.
+A lógica principal está em `src/services/Jogo.ts`, enquanto as classes, interfaces e tipos estão organizados em `src/models/`. As constantes utilizadas pelo projeto estão em `src/utils/`.
 
-A pasta versoes/ preserva os snapshots das etapas anteriores em TypeScript.
+Os arquivos `space_invaders.ts` e `space_invaders_corrigido.ts` foram preservados como registros de etapas anteriores do desenvolvimento.
 
 ## Resumo da evolução
 
-| Etapa | O que foi acrescentado |
-| --- | --- |
-| 0.1 — Nave básica | Classe Nave, posição inicial e métodos de movimentação. |
-| 0.2 — Tela estática | Tabuleiro textual e representação visual da nave. |
-| 0.3 — Controle em tempo real | Leitura das setas do teclado e atualização periódica da tela. |
-| 0.4 — Projéteis | Classe Projetil e movimentação dos disparos. |
-| 0.5 — Inimigos e colisões | Inimigos, detecção de colisões e pontuação. |
-| 0.6 — Invasores móveis e vitória | Movimento dos inimigos, inversão de direção, descida, vitória e Game Over. |
-| Modularização TypeScript | Separação em models, services e utils, com inicialização por src/index.ts. |
-| Versão web | Interface de navegador com HTML, CSS, JavaScript e Canvas 2D. |
+| Versão        | Etapa                             | O que foi acrescentado                                                     |
+| ------------- | --------------------------------- | -------------------------------------------------------------------------- |
+| 0.1           | Nave básica                       | Classe `Nave`, posição inicial e métodos de movimento.                     |
+| 0.2           | Tela estática                     | Tabuleiro textual e representação visual da nave.                          |
+| 0.3           | Controle em tempo real            | Leitura das setas do teclado e atualização periódica da tela.              |
+| 0.4           | Disparos                          | Classe `Projetil` e movimentação dos disparos.                             |
+| 0.5           | Inimigos e colisões               | Classe `Inimigo`, detecção de colisões e pontuação.                        |
+| 0.6           | Invasores móveis e fim de partida | Movimento dos inimigos, inversão de direção, descida, vitória e Game Over. |
+| Modularização | Organização do projeto            | Separação em módulos, classes, interfaces, tipos e constantes.             |
 
-## Versões 0.1 a 0.6 — Implementações iniciais
-
-### Versão 0.1 — Nave básica
+## Versão 0.1 — Nave básica
 
 **Objetivo:** iniciar o projeto praticando Programação Orientada a Objetos.
 
-- Criação da classe Nave.
+- Criação da classe `Nave`.
 - Definição da posição inicial.
-- Criação dos métodos moverEsquerda() e moverDireita().
+- Criação dos métodos `moverEsquerda()` e `moverDireita()`.
 - Testes de movimentação por chamadas diretas.
 
-Snapshot: versoes/v0.1-nave-basica.ts.
+Resultado observado:
 
-### Versão 0.2 — Tela estática
+```text
+Posição inicial: 20
+Após mover para direita: 21
+Após mover para esquerda: 20
+```
+
+Snapshot: `versoes/v0.1-nave-basica.ts`.
+
+## Versão 0.2 — Tela estática
 
 **Objetivo:** representar a nave visualmente no terminal.
 
 - Criação de um tabuleiro de 40 colunas por 12 linhas.
-- Utilização de laços for para desenhar a tela.
-- Representação da nave pelo caractere A.
+- Utilização de laços `for` para desenhar a tela.
+- Representação da nave pelo caractere `A`.
 - Criação das bordas do tabuleiro.
 
-Snapshot: versoes/v0.2-tela-estatica.ts.
+Resultado observado: exibição do tabuleiro com a nave na região inferior.
 
-### Versão 0.3 — Controle em tempo real
+Snapshot: `versoes/v0.2-tela-estatica.ts`.
+
+## Versão 0.3 — Controle em tempo real
 
 **Objetivo:** permitir o controle da nave diretamente pelo teclado.
 
@@ -59,114 +65,129 @@ Snapshot: versoes/v0.2-tela-estatica.ts.
 - Atualização periódica da tela.
 - Utilização dos recursos de entrada do Node.js.
 
-### Versão 0.4 — Disparos
+Resultado observado: o usuário confirmou que conseguiu movimentar a nave em tempo real.
+
+Snapshot: `versoes/v0.3-controle-tempo-real.ts`.
+
+## Versão 0.4 — Disparos
 
 **Objetivo:** permitir que a nave ataque os inimigos.
 
-- Criação da classe Projetil.
+- Criação da classe `Projetil`.
 - Armazenamento dos disparos em um vetor.
 - Movimento vertical dos projéteis.
 - Remoção dos projéteis que saem da tela.
 
-### Versão 0.5 — Inimigos e colisões
+Resultado observado: o usuário confirmou que os disparos funcionaram.
+
+Snapshot: `versoes/v0.4-projeteis.ts`.
+
+## Versão 0.5 — Inimigos e colisões
 
 **Objetivo:** adicionar alvos e um sistema de pontuação.
 
-- Criação da classe Inimigo.
-- Inclusão dos inimigos.
+- Criação da classe `Inimigo`.
+- Inclusão de três inimigos.
 - Detecção de colisões entre projéteis e inimigos.
 - Remoção dos objetos atingidos.
-- Adição de pontos por inimigo eliminado.
+- Adição de 10 pontos por inimigo eliminado.
 
-### Versão 0.6 — Invasores móveis e encerramento
+Resultado observado: a execução registrou 30 pontos e zero inimigos restantes.
+
+Snapshot: `versoes/v0.5-inimigos-e-colisoes.ts`.
+
+## Versão 0.6 — Invasores móveis e encerramento
 
 **Objetivo:** adicionar movimentação aos inimigos e condições de encerramento da partida.
+
+Foram implementados:
 
 - Movimento horizontal dos inimigos.
 - Inversão da direção ao alcançar as extremidades.
 - Descida dos inimigos após a inversão.
 - Condição de vitória quando todos os inimigos são eliminados.
-- Condição de Game Over quando os invasores alcançam a região da nave.
+- Condição de Game Over quando os inimigos alcançam a região da nave.
 
-Snapshot: versoes/v0.6-invasores-moveis-e-vitoria.ts.
+Resultado observado na versão anterior: a execução registrou 30 pontos, zero inimigos restantes e a mensagem de vitória.
 
-## Versão modularizada — Terminal TypeScript
+Snapshot: `versoes/v0.6-invasores-moveis-e-vitoria.ts`.
 
-**Objetivo:** organizar o projeto em módulos, separando responsabilidades e aplicando os conceitos estudados.
+## Versão modularizada — Estrutura atual
 
-A estrutura está organizada em:
+**Objetivo:** organizar o projeto em módulos, separando responsabilidades e aplicando os conceitos estudados no Módulo 3.
 
-- src/models/: classes, interfaces e tipos.
-- src/services/: lógica principal da partida.
-- src/utils/: constantes.
-- src/index.ts: ponto de entrada.
+A estrutura atual está organizada da seguinte maneira:
 
-O comando npm start executa essa versão por meio de tsx. O comando npm run check verifica os tipos com o compilador TypeScript sem gerar arquivos de saída.
+```text
+SPACE_INVADERS/
+├── src/
+│   ├── models/
+│   │   ├── interfaces.ts
+│   │   ├── tipos.ts
+│   │   ├── Personagem.ts
+│   │   ├── Nave.ts
+│   │   ├── Projetil.ts
+│   │   ├── PoderDisparo.ts
+│   │   └── Inimigo.ts
+│   ├── services/
+│   │   └── Jogo.ts
+│   ├── utils/
+│   │   └── constantes.ts
+│   └── index.ts
+├── versoes/
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── README.md
+├── TESTES_MANUAIS.md
+└── HISTORICO_VERSOES.md
+```
 
-## Versão web — Navegador
+### Organização dos módulos
 
-**Objetivo:** disponibilizar uma segunda interface jogável, agora diretamente no navegador.
+- `models/`: reúne as classes, interfaces e tipos utilizados pelo jogo.
+- `services/`: contém a lógica principal da partida.
+- `utils/`: reúne constantes utilizadas em diferentes partes do projeto.
+- `index.ts`: inicia a aplicação.
+- `versoes/`: preserva snapshots das etapas anteriores.
 
-A versão web foi organizada em um único arquivo, web/space_invaders.html, que reúne:
-
-- Estrutura HTML da página.
-- Estilos CSS da interface.
-- Classes JavaScript para nave, projéteis e inimigos.
-- Tabuleiro gráfico desenhado com Canvas 2D.
-- Leitura de teclado e atualização da tela.
-- Exibição da pontuação e das vidas.
-- Tela inicial, vitória, Game Over e botão para reiniciar.
-
-### Características da versão web
-
-- Trinta inimigos distribuídos em três linhas.
-- Quatro aparências de inimigos.
-- Movimento horizontal e descida nas bordas.
-- Disparos e detecção de colisões.
-- Dez pontos por inimigo eliminado.
-- Três vidas.
-- Perda de uma vida quando a formação alcança a linha da nave; os invasores retornam às alturas iniciais.
-- Vitória quando todos os invasores são eliminados.
-
-A versão web é independente da versão de terminal. Não precisa de Node.js ou npm para ser aberta: basta carregar o arquivo HTML em um navegador atualizado.
-
-## Conceitos aplicados
-
-Ao longo das versões, foram praticados:
+### Conceitos aplicados
 
 - Programação Orientada a Objetos.
 - Classes e objetos.
 - Herança e classes abstratas.
 - Encapsulamento.
-- Interfaces e tipos personalizados.
-- Getters e setters.
+- Interfaces.
+- Tipos personalizados e union types.
 - Arrays e manipulação de objetos.
 - Importação e exportação de módulos.
-- Eventos de teclado.
-- Manipulação do DOM.
-- Desenho com Canvas 2D.
-- Atualização de animações com requestAnimationFrame.
-- Detecção de colisões e controle do estado da partida.
+- Organização de responsabilidades em arquivos separados.
+- Verificação de tipos com TypeScript.
 
-## Execução e verificação
+### Execução e verificação
 
-Terminal:
+O projeto atual é iniciado com:
 
-~~~bash
-npm install
+```bash
 npm start
+```
+
+A verificação de compilação é realizada com:
+
+```bash
 npm run check
-~~~
+```
 
-Navegador:
+Na execução registrada no PC do curso, foram confirmados o início do jogo, os controles básicos, os disparos, a exibição das informações da partida e o encerramento com Ctrl+C.
 
-1. Abra web/space_invaders.html.
-2. Inicie a partida pelo botão da tela ou pela tecla Enter.
+Após uma correção no encerramento automático do temporizador, o comando `npm run check` foi executado novamente sem apresentar erros.
 
-Os resultados de testes devem ser consultados em TESTES_MANUAIS.md. Testes de uma implementação não devem ser considerados automaticamente aprovados na outra.
+Os testes específicos de colisão, vitória, Game Over e encerramento automático do temporizador na estrutura modularizada devem ser consultados em `TESTES_MANUAIS.md`.
 
 ## Considerações finais
 
-O projeto foi desenvolvido de forma incremental. Cada etapa acrescentou mecânicas ou melhorias de organização.
+O desenvolvimento foi realizado de forma incremental. Cada etapa acrescentou uma mecânica ou uma melhoria de organização ao projeto.
 
-A modularização TypeScript separou responsabilidades em arquivos e pastas. A versão web ampliou as formas de interação, com interface gráfica e desenho no Canvas, mantendo o projeto simples de executar e sem dependências externas para o navegador.
+A modularização representa a evolução da estrutura do código, permitindo separar as responsabilidades e facilitar a manutenção, a leitura e a expansão do jogo.
+
+Os arquivos históricos foram preservados para documentar a evolução sem confundir os resultados de testes de versões anteriores com os da implementação atual.

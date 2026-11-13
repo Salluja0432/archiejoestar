@@ -1,162 +1,137 @@
-# Space Invaders — Jovem Tech
+# Space Invaders
 
-Projeto desenvolvido durante o Módulo 3 do Jovem Tech. O repositório contém duas implementações jogáveis do Space Invaders: uma executada no terminal com TypeScript e outra executada no navegador com HTML, CSS e JavaScript.
+## Sobre o jogo
 
-## Versões do jogo
+Space Invaders é um jogo desenvolvido em TypeScript e executado diretamente no terminal. O jogador controla uma nave, movimenta-se para os lados e dispara contra os invasores.
 
-### Versão de terminal (TypeScript)
+Na versão modularizada, o jogo apresenta:
 
-O jogador controla uma nave pelo teclado, movimenta-se para os lados e dispara contra quatro invasores. Os invasores se movimentam horizontalmente e descem ao alcançar as bordas. Cada inimigo eliminado vale 10 pontos. O jogador começa com três vidas.
+- Quatro inimigos com aparências diferentes.
+- Inimigos que se movimentam horizontalmente e descem ao alcançar as bordas.
+- Disparos e detecção de colisões.
+- 10 pontos por inimigo eliminado.
+- Três vidas para o jogador.
+- Condições de vitória e Game Over.
 
-A partida termina quando todos os invasores são eliminados ou quando as vidas acabam.
+A partida termina em vitória quando todos os inimigos são eliminados. O jogador perde uma vida quando os invasores alcançam a linha da nave; a partida termina quando as vidas chegam a zero.
 
-### Versão de navegador (HTML)
-
-A versão web apresenta uma interface gráfica com uma tela inicial, um tabuleiro desenhado em Canvas, pontuação, vidas e botões para iniciar ou reiniciar a partida. O jogador enfrenta 30 invasores distribuídos em três linhas, com quatro aparências diferentes.
-
-Os invasores avançam horizontalmente, mudam de direção e descem ao alcançar as laterais. Cada inimigo eliminado vale 10 pontos. Quando a formação alcança a linha da nave, o jogador perde uma vida e os invasores retornam às suas alturas iniciais. A partida termina quando todos são eliminados ou quando as três vidas acabam.
-
-As versões compartilham o tema e conceitos de programação, mas têm implementações e quantidades de inimigos diferentes.
-
-## Como executar
-
-### Requisitos da versão de terminal
+## Como acessar e executar
 
 É necessário ter o [Node.js](https://nodejs.org/) instalado.
 
-1. Clone o repositório:
+### 1. Baixar o projeto
 
-   ~~~bash
-   git clone -b module3 --single-branch https://github.com/Salluja0432/archiejoestar.git
-   ~~~
+Caso ainda não tenha o repositório no computador, abra o terminal e execute:
 
-2. Entre na pasta do projeto:
+```bash
+git clone -b module3 --single-branch https://github.com/Salluja0432/archiejoestar.git
+cd archiejoestar/SPACE_INVADERS
+```
 
-   ~~~bash
-   cd archiejoestar/SPACE_INVADERS
-   ~~~
+Se o repositório já estiver clonado, basta abrir a pasta `SPACE_INVADERS` no Visual Studio Code e abrir um terminal nela.
 
-3. Instale as dependências:
+### 2. Instalar as dependências
 
-   ~~~bash
-   npm install
-   ~~~
+```bash
+npm install
+```
 
-4. Inicie o jogo:
+### 3. Iniciar o jogo
 
-   ~~~bash
-   npm start
-   ~~~
+```bash
+npm start
+```
 
-O comando inicia a versão TypeScript pelo arquivo src/index.ts, usando tsx para executar TypeScript diretamente no Node.js.
+O comando inicia a versão modularizada pelo arquivo `src/index.ts`, utilizando o `tsx` para executar TypeScript diretamente.
 
-Para verificar os tipos e a compilação TypeScript:
+### 4. Verificar a compilação
 
-~~~bash
+```bash
 npm run check
-~~~
+```
 
-### Como executar a versão de navegador
-
-A versão web não precisa de Node.js, npm, instalação de dependências ou servidor.
-
-1. Abra a pasta SPACE_INVADERS/web.
-2. Abra o arquivo space_invaders.html com um navegador atualizado, como Chrome, Edge ou Firefox.
-3. Clique em **Iniciar jogo**.
-
-Também é possível abrir o arquivo diretamente pelo explorador de arquivos. O HTML, CSS e JavaScript estão reunidos no próprio arquivo.
+Esse comando executa o TypeScript Compiler sem gerar arquivos de saída. Se não houver erros, o terminal volta ao prompt sem apresentar mensagens de erro.
 
 ## Controles
 
 | Tecla | Ação |
 | --- | --- |
-| Seta para a esquerda (←) ou A | Mover a nave para a esquerda |
-| Seta para a direita (→) ou D | Mover a nave para a direita |
+| Seta para a esquerda (←) | Movimentar a nave para a esquerda |
+| Seta para a direita (→) | Movimentar a nave para a direita |
 | Espaço | Atirar |
-| Enter | Iniciar ou jogar novamente na versão web |
-| Ctrl + C | Encerrar a versão de terminal |
-
-Na versão web, o botão **Reiniciar** retorna à tela inicial e restaura a pontuação, as vidas e os inimigos.
+| Ctrl + C | Encerrar o jogo |
 
 ## Estrutura do projeto
 
-~~~text
+```text
 SPACE_INVADERS/
-├── src/                         # Implementação de terminal em TypeScript
-│   ├── models/                  # Classes, interfaces e tipos
-│   ├── services/                # Lógica da partida
-│   ├── utils/                   # Constantes
-│   ├── testes/                  # Teste de validação
-│   └── index.ts                 # Ponto de entrada do terminal
-├── web/
-│   └── space_invaders.html      # Implementação para navegador
-├── versoes/                     # Etapas anteriores da implementação
-├── SPACE_INVADERS.ts            # Implementação anterior em arquivo único
-├── HISTORICO_VERSOES.md         # Evolução do projeto
-├── TESTES_MANUAIS.md            # Registro de testes
-├── README.md                    # Este documento
-├── package.json                 # Comandos e dependências Node.js
-├── package-lock.json            # Versões exatas das dependências
-└── tsconfig.json                # Configuração do TypeScript
-~~~
+├── src/
+│   ├── models/
+│   │   ├── interfaces.ts
+│   │   ├── tipos.ts
+│   │   ├── Personagem.ts
+│   │   ├── Nave.ts
+│   │   ├── Projetil.ts
+│   │   ├── PoderDisparo.ts
+│   │   └── Inimigo.ts
+│   ├── services/
+│   │   └── Jogo.ts
+│   ├── utils/
+│   │   └── constantes.ts
+│   └── index.ts
+├── versoes/
+├── SPACE_INVADERS.ts
+├── HISTORICO_VERSOES.md
+├── TESTES_MANUAIS.md
+├── README.md
+├── package.json
+├── package-lock.json
+└── tsconfig.json
+```
 
-### Responsabilidade das pastas e arquivos
+### O que cada parte faz
 
-- **src/models/**: contém as classes, interfaces e tipos usados na versão TypeScript.
-- **src/services/Jogo.ts**: controla a partida de terminal, os movimentos, disparos, colisões, pontuação e encerramento.
-- **src/utils/constantes.ts**: reúne as dimensões do tabuleiro da versão de terminal.
-- **src/index.ts**: inicia a versão de terminal.
-- **src/testes/**: contém o teste de validação do projeto.
-- **web/space_invaders.html**: reúne a estrutura HTML, os estilos CSS e a lógica JavaScript da versão para navegador.
-- **versoes/**: preserva implementações anteriores do desenvolvimento.
-- **SPACE_INVADERS.ts**: mantém a implementação em arquivo único, separada da versão modularizada executada por npm start.
+- **models/**: reúne as classes, interfaces e tipos usados no jogo.
+- **services/Jogo.ts**: controla a partida, os movimentos, os disparos, as colisões, a pontuação e o encerramento.
+- **utils/constantes.ts**: guarda as dimensões do tabuleiro.
+- **index.ts**: cria o jogo e inicia a execução.
+- **versoes/**: preserva snapshots de etapas anteriores do desenvolvimento.
+- **HISTORICO_VERSOES.md**: registra a evolução do projeto.
+- **TESTES_MANUAIS.md**: documenta os testes e seus resultados.
+
+O arquivo `SPACE_INVADERS.ts` é uma implementação em arquivo único mantida na pasta do projeto. O comando `npm start` executa a versão modularizada, iniciada por `src/index.ts`.
 
 ## Tecnologias utilizadas
 
-### Versão de terminal
-
-- **TypeScript**: linguagem de programação com tipagem estática.
-- **Node.js**: ambiente de execução.
-- **tsx**: execução dos arquivos TypeScript.
-- **npm**: instalação e gerenciamento das dependências e dos comandos.
-- **readline**: leitura dos comandos do teclado no terminal.
-
-### Versão de navegador
-
-- **HTML5**: estrutura da página e elementos da interface.
-- **CSS3**: cores, posicionamento, responsividade e aparência dos componentes.
-- **JavaScript**: classes, regras, controles e atualização do jogo.
-- **Canvas 2D**: desenho da nave, inimigos, projéteis e cenário.
-- **DOM e eventos de teclado**: atualização da pontuação e das vidas, além da leitura dos comandos.
-- **requestAnimationFrame**: atualização contínua da animação no navegador.
-
-A versão web é autocontida: não utiliza bibliotecas externas nem arquivos adicionais de CSS ou JavaScript.
+- **TypeScript**: linguagem utilizada no desenvolvimento, com tipagem estática.
+- **Node.js**: ambiente de execução do projeto.
+- **tsx**: ferramenta que permite executar os arquivos TypeScript.
+- **npm**: instalação e gerenciamento das dependências e dos comandos do projeto.
+- **readline**: módulo nativo do Node.js utilizado para receber os comandos do teclado.
 
 ## O que aprendemos
 
-Durante o desenvolvimento, praticamos:
+Durante o desenvolvimento, aplicamos e praticamos:
 
 - Programação Orientada a Objetos.
 - Criação de classes e objetos.
-- Herança, classes abstratas e polimorfismo.
-- Encapsulamento com atributos privados e protegidos na versão TypeScript.
-- Interfaces, tipos personalizados e validação de valores.
-- Getters e setters.
-- Arrays, laços de repetição e estruturas condicionais.
+- Herança e classes abstratas.
+- Encapsulamento com atributos `private` e `protected`.
+- Interfaces e implementação de contratos.
+- Getters e setters, incluindo validação de valores.
+- Tipos personalizados e *union types*.
+- Arrays e manipulação de objetos.
+- Laços de repetição e estruturas condicionais.
 - Importação e exportação de módulos.
-- Organização do código em pastas e arquivos.
-- Entrada de dados pelo teclado.
-- Eventos do teclado no navegador.
-- Manipulação de elementos HTML pelo DOM.
-- Desenho e animação com Canvas 2D.
-- Temporizadores e requestAnimationFrame.
-- Detecção de colisões, pontuação, vidas e condições de vitória e derrota.
-- Verificação de tipos, compilação, testes manuais e depuração.
+- Organização do código em arquivos e pastas.
+- Entrada de dados pelo teclado no terminal.
+- Atualização periódica do jogo com temporizadores.
+- Detecção de colisões e controle do estado da partida.
+- Verificação de tipos e compilação com TypeScript.
+- Testes manuais e depuração.
 
 ## Testes e histórico
 
-O arquivo TESTES_MANUAIS.md registra os testes confirmados e os que ainda precisam de execução manual, separando a versão de terminal da versão web.
+Os testes manuais estão descritos em `TESTES_MANUAIS.md`. O histórico da evolução do jogo está em `HISTORICO_VERSOES.md`, e as implementações anteriores foram preservadas em `versoes/`.
 
-O arquivo HISTORICO_VERSOES.md registra a evolução do jogo desde as primeiras implementações até a organização modular e a inclusão da versão de navegador. As etapas anteriores foram preservadas na pasta versoes/.
-
-Para iniciar a versão de terminal, use npm start. Para abrir a versão de navegador, abra web/space_invaders.html. Para verificar a compilação TypeScript, use npm run check.
+Para conferir a compilação no seu computador, execute `npm run check`. Para iniciar a partida, execute `npm start`.
