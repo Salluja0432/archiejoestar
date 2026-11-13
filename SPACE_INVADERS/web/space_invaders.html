@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space Invaders — Jovem Tech</title>
+<style>
+  :root { color-scheme: dark; --cyan:#38bdf8; --green:#4ade80; --yellow:#facc15; --purple:#c084fc; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    padding: 22px; background: radial-gradient(ellipse at top, #172554 0%, #080d1c 52%, #03050c 100%);
+    color: #e5e7eb; font-family: system-ui, Segoe UI, sans-serif;
+  }
+  .game { width: min(900px, 100%); }
+  header { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:12px; }
+  h1 { margin:0; letter-spacing:.12em; font-size:clamp(1.25rem, 4vw, 2rem); color:#e0f2fe; text-shadow:0 0 18px #0ea5e9; }
+  .stats { display:flex; gap:18px; font-weight:700; }
+  .stats span { color:#7dd3fc; }
+  .panel { border:1px solid #1e3a5f; background:#050b18dd; border-radius:14px; padding:12px; box-shadow:0 0 35px #0c4a6e33; }
+  canvas { width:100%; display:block; background:#020617; border:1px solid #1e293b; border-radius:8px; image-rendering:pixelated; }
+  .bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:12px; }
+  .help { color:#94a3b8; font-size:.9rem; line-height:1.5; }
+  button { border:1px solid #38bdf8; background:#082f49; color:#e0f2fe; padding:10px 16px; border-radius:9px; font-weight:700; cursor:pointer; }
+  button:hover { background:#0c4a6e; }
+  .overlay { position:relative; }
+  .message { position:absolute; inset:0; display:none; place-items:center; text-align:center; background:#020617d9; border-radius:8px; padding:20px; }
+  .message.show { display:grid; }
+  .message h2 { color:#7dd3fc; font-size:clamp(1.5rem,5vw,2.4rem); margin:0 0 8px; }
+  .message p { margin:0 0 16px; color:#cbd5e1; }
+  .legend { display:flex; gap:14px; flex-wrap:wrap; color:#cbd5e1; font-size:.85rem; margin-top:10px; }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; }
+</style>
+</head>
+<body>
+<main class="game">
+  <header>
+    <h1>SPACE INVADERS</h1>
+    <div class="stats">
+      <div>PONTOS: <span id="score">0</span></div>
+      <div>VIDAS: <span id="lives">3</span></div>
+    </div>
+  </header>
+  <section class="panel">
+    <div class="overlay">
+      <canvas id="game" width="800" height="520" aria-label="Jogo Space Invaders"></canvas>
+      <div class="message show" id="message">
+        <div>
+          <h2>SPACE INVADERS</h2>
+          <p>Defenda a Terra dos invasores.</p>
+          <button id="start">Iniciar jogo</button>
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:#38bdf8"></i>Nave</span>
+      <span><i class="dot" style="background:#f87171"></i>Inimigo vermelho</span>
+      <span><i class="dot" style="background:#4ade80"></i>Inimigo verde</span>
+      <span><i class="dot" style="background:#facc15"></i>Inimigo amarelo</span>
+      <span><i class="dot" style="background:#c084fc"></i>Inimigo roxo</span>
+    </div>
+  </section>
+  <div class="bottom">
+    <div class="help">Mover: ← → ou A / D &nbsp;·&nbsp; Atirar: Espaço<br>Também funciona com os botões direcionais do teclado.</div>
+    <button id="restart">Reiniciar</button>
+  </div>
+</main>
+<script>
+"use strict";
+
+// Entidades do jogo: a nave e os inimigos compartilham a ideia de personagem.
+class Personagem {
+  constructor(x, y, largura, altura) {
+    this.x = x;
+    this.y = y;
+    this.largura = largura;
+    this.altura = altura;
+  }
+  desenhar(contexto) {}
+}
+
+class Nave extends Personagem {
+  constructor() {
+    super(376, 468, 48, 30);
+    this.vidas = 3;
+    this.poderDisparo = new PoderDisparo();
+    this.invulneravelAte = 0;
+  }
+  // Validação equivalente ao setter vidasRestantes do projeto TypeScript.
+  set vidasRestantes(valor) {
+    if (!Number.isInteger(valor) || valor < 0 || valor > 3) {
+      throw new Error("A quantidade de vidas deve ser um número inteiro entre 0 e 3.");
+    }
+    this.vidas = valor;
+  }
+  get vidasRestantes() { return this.vidas; }
+  mover(direcao) {
+    this.x += direcao * 6;
+    if (this.x < 0) this.x = 0;
+    if (this.x + this.largura > 800) this.x = 800 - this.largura;
+  }
+  atirar() { return this.poderDisparo.criarProjetil(this.x + this.largura / 2 - 3, this.y - 10); }
+  desenhar(ctx) {
+    ctx.save();
+    ctx.fillStyle = "#38bdf8";
+    ctx.shadowColor = "#0ea5e9"; ctx.shadowBlur = 18;
+    ctx.beginPath();
+    ctx.moveTo(this.x + this.largura / 2, this.y);
+    ctx.lineTo(this.x + this.largura, this.y + this.altura);
+    ctx.lineTo(this.x, this.y + this.altura);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#e0f2fe"; ctx.fillRect(this.x + 19, this.y + 15, 10, 10);
+    ctx.restore();
+  }
+}
+
+class PoderDisparo {
+  criarProjetil(x, y) { return new Projetil(x, y); }
+}
+class Projetil {
+  constructor(x, y) { this.x = x; this.y = y; this.largura = 6; this.altura = 14; }
+  mover() { this.y -= 8; }
+  desenhar(ctx) {
+    ctx.save(); ctx.fillStyle = "#f8fafc"; ctx.shadowColor = "#7dd3fc"; ctx.shadowBlur = 12;
+    ctx.fillRect(this.x, this.y, this.largura, this.altura); ctx.restore();
+  }
+}
+
+// Cada subtipo implementa seu próprio desenho: polimorfismo visual.
+class Inimigo extends Personagem {
+  constructor(x, y) {
+    super(x, y, 34, 26);
+    this.yInicial = y;
+    this.cor = "#f87171";
+    this.simbolo = "V";
+  }
+  mover(direcao) { this.x += direcao; }
+  descer() { this.y += 24; }
+  reiniciar() { this.y = this.yInicial; }
+  desenhar(ctx) { desenharInimigo(ctx, this, this.cor, this.simbolo); }
+}
+class InimigoVerde extends Inimigo {
+  constructor(x, y) { super(x, y); this.cor = "#4ade80"; this.simbolo = "V"; }
+}
+class InimigoAmarelo extends Inimigo {
+  constructor(x, y) { super(x, y); this.cor = "#facc15"; this.simbolo = "W"; }
+}
+class InimigoRoxo extends Inimigo {
+  constructor(x, y) { super(x, y); this.cor = "#c084fc"; this.simbolo = "M"; }
+}
+function desenharInimigo(ctx, inimigo, cor, simbolo) {
+  ctx.save(); ctx.fillStyle = cor; ctx.shadowColor = cor; ctx.shadowBlur = 12;
+  ctx.fillRect(inimigo.x + 5, inimigo.y, 24, 7);
+  ctx.fillRect(inimigo.x, inimigo.y + 7, 34, 12);
+  ctx.fillRect(inimigo.x + 5, inimigo.y + 19, 6, 7);
+  ctx.fillRect(inimigo.x + 23, inimigo.y + 19, 6, 7);
+  ctx.fillStyle = "#111827"; ctx.font = "bold 12px monospace"; ctx.textAlign = "center";
+  ctx.fillText(simbolo, inimigo.x + 17, inimigo.y + 16); ctx.restore();
+}
+
+class JogoHTML {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d");
+    this.teclas = {};
+    this.rodando = false;
+    this.terminou = false;
+    this.pontuacao = 0;
+    this.nave = new Nave();
+    this.projeteis = [];
+    this.inimigos = [];
+    this.direcaoInimigos = 1;
+    this.ultimoTiro = 0;
+    this.ultimoMovimento = 0;
+    this.animacao = null;
+    this.criarInimigos();
+    this.atualizarPainel();
+    this.desenhar();
+  }
+  criarInimigos() {
+    this.inimigos = [];
+    const tipos = [Inimigo, InimigoVerde, InimigoAmarelo, InimigoRoxo];
+    for (let linha = 0; linha < 3; linha++) {
+      for (let coluna = 0; coluna < 10; coluna++) {
+        const TipoInimigo = tipos[(linha + coluna) % tipos.length];
+        this.inimigos.push(new TipoInimigo(55 + coluna * 68, 45 + linha * 48));
+      }
+    }
+  }
+  iniciar() {
+    if (this.rodando) return;
+    // Uma nova partida começa automaticamente após vitória ou Game Over.
+    if (this.terminou) this.reiniciar();
+    this.rodando = true;
+    document.getElementById("message").classList.remove("show");
+    this.loop();
+  }
+  reiniciar() {
+    if (this.animacao !== null) cancelAnimationFrame(this.animacao);
+    this.animacao = null;
+    this.pontuacao = 0;
+    this.nave = new Nave();
+    this.projeteis = [];
+    this.direcaoInimigos = 1;
+    this.ultimoTiro = 0;
+    this.ultimoMovimento = 0;
+    this.terminou = false;
+    this.criarInimigos();
+    this.rodando = false;
+    this.atualizarPainel();
+    this.desenhar();
+    document.getElementById("message").classList.add("show");
+    document.querySelector("#message h2").textContent = "SPACE INVADERS";
+    document.querySelector("#message p").textContent = "Defenda a Terra dos invasores.";
+    document.getElementById("start").textContent = "Iniciar jogo";
+  }
+  finalizar(vitoria) {
+    this.rodando = false;
+    this.terminou = true;
+    if (this.animacao !== null) cancelAnimationFrame(this.animacao);
+    this.animacao = null;
+    document.getElementById("message").classList.add("show");
+    document.querySelector("#message h2").textContent = vitoria ? "VOCÊ VENCEU!" : "FIM DE JOGO";
+    document.querySelector("#message p").textContent = vitoria
+      ? "Todos os invasores foram derrotados. Pontuação: " + this.pontuacao
+      : "Sua nave foi destruída. Pontuação: " + this.pontuacao;
+    document.getElementById("start").textContent = "Jogar novamente";
+  }
+  loop() {
+    if (!this.rodando) return;
+    this.atualizar();
+    this.desenhar();
+    if (this.rodando) {
+      this.animacao = requestAnimationFrame(() => this.loop());
+    }
+  }
+  atualizar() {
+    if (this.teclas.ArrowLeft || this.teclas.a || this.teclas.A) this.nave.mover(-1);
+    if (this.teclas.ArrowRight || this.teclas.d || this.teclas.D) this.nave.mover(1);
+    const agora = Date.now();
+    if ((this.teclas[" "] || this.teclas.Space) && agora - this.ultimoTiro > 280) {
+      this.projeteis.push(this.nave.atirar());
+      this.ultimoTiro = agora;
+    }
+    for (const projetil of this.projeteis) projetil.mover();
+    this.projeteis = this.projeteis.filter(projetil => projetil.y + projetil.altura > 0);
+
+    if (agora - this.ultimoMovimento > 480) {
+      let inverter = false;
+      for (const inimigo of this.inimigos) {
+        if (inimigo.x + inimigo.largura >= 790 && this.direcaoInimigos > 0) inverter = true;
+        if (inimigo.x <= 10 && this.direcaoInimigos < 0) inverter = true;
+      }
+      if (inverter) {
+        this.direcaoInimigos *= -1;
+        for (const inimigo of this.inimigos) inimigo.descer();
+      } else {
+        for (const inimigo of this.inimigos) inimigo.mover(this.direcaoInimigos * 12);
+      }
+      this.ultimoMovimento = agora;
+    }
+
+    // Primeiro verifica os disparos, permitindo eliminar invasores antes que avancem.
+    for (let i = this.inimigos.length - 1; i >= 0; i--) {
+      for (let j = this.projeteis.length - 1; j >= 0; j--) {
+        const projetil = this.projeteis[j];
+        if (colidiu(projetil, this.inimigos[i])) {
+          this.inimigos.splice(i, 1);
+          this.projeteis.splice(j, 1);
+          this.pontuacao += 10;
+          break;
+        }
+      }
+    }
+    if (this.inimigos.length === 0) {
+      this.atualizarPainel();
+      this.finalizar(true);
+      return;
+    }
+
+    // Quando a formação alcança a linha da nave, o jogador perde uma vida.
+    const invasorAlcancouNave = this.inimigos.some(inimigo =>
+      inimigo.y + inimigo.altura >= this.nave.y
+    );
+    if (invasorAlcancouNave) {
+      this.nave.vidasRestantes = this.nave.vidasRestantes - 1;
+      this.nave.invulneravelAte = agora + 1200;
+      for (const inimigo of this.inimigos) inimigo.reiniciar();
+
+      if (this.nave.vidasRestantes === 0) {
+        this.atualizarPainel();
+        this.finalizar(false);
+        return;
+      }
+    }
+    this.atualizarPainel();
+  }
+  atualizarPainel() {
+    document.getElementById("score").textContent = this.pontuacao;
+    document.getElementById("lives").textContent = this.nave.vidasRestantes;
+  }
+  desenhar() {
+    const ctx = this.ctx;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillStyle = "#020617"; ctx.fillRect(0, 0, 800, 520);
+    // Estrelas de fundo.
+    ctx.fillStyle = "#64748b";
+    for (let i = 0; i < 55; i++) {
+      const x = (i * 137) % 800, y = (i * 71) % 520;
+      ctx.globalAlpha = (i % 3 + 1) / 4; ctx.fillRect(x, y, 2, 2);
+    }
+    ctx.globalAlpha = 1;
+    // Polimorfismo: cada classe de inimigo desenha sua própria cor e símbolo.
+    for (const inimigo of this.inimigos) inimigo.desenhar(ctx);
+    for (const projetil of this.projeteis) projetil.desenhar(ctx);
+    if (Date.now() > this.nave.invulneravelAte || Math.floor(Date.now() / 100) % 2 === 0) {
+      this.nave.desenhar(ctx);
+    }
+    ctx.fillStyle = "#1e293b"; ctx.fillRect(0, 510, 800, 2);
+  }
+}
+function colidiu(a, b) {
+  return a.x < b.x + b.largura && a.x + a.largura > b.x &&
+         a.y < b.y + b.altura && a.y + a.altura > b.y;
+}
+
+const jogo = new JogoHTML(document.getElementById("game"));
+document.addEventListener("keydown", evento => {
+  if (["ArrowLeft", "ArrowRight", " "].includes(evento.key)) evento.preventDefault();
+  jogo.teclas[evento.key] = true;
+  if ((evento.key === " " || evento.key === "Enter") && !jogo.rodando) jogo.iniciar();
+});
+document.addEventListener("keyup", evento => { jogo.teclas[evento.key] = false; });
+document.getElementById("start").addEventListener("click", () => jogo.iniciar());
+document.getElementById("restart").addEventListener("click", () => jogo.reiniciar());
+</script>
+</body>
+</html>
